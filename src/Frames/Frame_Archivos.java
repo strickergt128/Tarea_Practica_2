@@ -6,6 +6,7 @@
 package Frames;
 
 import Otras_Clases.Leer_Archivo;
+import Otras_Clases.Usuario;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -14,6 +15,7 @@ import javax.swing.JFileChooser;
  * @author dilan
  */
 public class Frame_Archivos extends javax.swing.JFrame {
+    Usuario us1;
 
     /**
      * Creates new form Frame_Archivos
@@ -126,6 +128,23 @@ public class Frame_Archivos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void separarCaracteres(){
+        String doc = this.jTextArea1.getText();
+        String[] linea;
+        String cadenaSinSeparar = doc;
+        linea = cadenaSinSeparar.split("\n");
+        for (int i = 0; i < linea.length; i++) {
+            String[] cadena;
+            cadena = linea[i].split(",");
+            for (int j = 0; j < cadena.length/3; j++) {
+                us1 = new Usuario(Integer.parseInt(cadena[j]),cadena[j+1],Boolean.parseBoolean(cadena[j+2]));
+                System.out.println(us1.toString());
+            }
+        }
+        
+    }
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Creación de JFileChooser
         JFileChooser jf = new JFileChooser();
@@ -138,6 +157,8 @@ public class Frame_Archivos extends javax.swing.JFrame {
         //Agregar el texto a un JTextArea
         String texto = Leer_Archivo.leerDocumento(jTextField1.getText());
         this.jTextArea1.setText(texto);
+        //Separar los caracteres del documento y crear un nuevo Usuario
+        separarCaracteres();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
