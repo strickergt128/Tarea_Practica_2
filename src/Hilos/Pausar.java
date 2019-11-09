@@ -5,10 +5,27 @@
  */
 package Hilos;
 
+import Otras_Clases.Usuario;
+
 /**
  *
  * @author logas
  */
-public class Pausar {
+public class Pausar extends Thread{
+    Thread hilo;
+    boolean pausar;
+    private Usuario users[];
+    
+    Pausar(String nombre){
+    hilo= new Thread(this,nombre);
+   pausar=false;
+    }
+    
+    synchronized void pausarhilo(){
+        pausar=true;
+        //lo siguiente garantiza que un hilo suspendido puede detenerse.
+        pausar=false;
+        notify();
+    }
     
 }

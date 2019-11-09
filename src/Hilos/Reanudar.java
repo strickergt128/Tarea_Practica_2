@@ -9,6 +9,18 @@ package Hilos;
  *
  * @author logas
  */
-public class Reanudar {
+public class Reanudar  implements  Runnable {
     
+    Thread hilo;
+    boolean suspender;
+    Reanudar(String nombre){
+    hilo= new Thread(this,nombre);
+    
+    
+    }
+    @Override
+    public void run() {
+    
+    
+    }
 }
