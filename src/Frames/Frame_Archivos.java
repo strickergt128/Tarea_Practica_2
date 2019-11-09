@@ -5,7 +5,9 @@
  */
 package Frames;
 
+import Hilos.Aumentar_Velocidad;
 import Otras_Clases.Leer_Archivo;
+import Otras_Clases.ListaCircularDoble;
 import Otras_Clases.Usuario;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -16,6 +18,9 @@ import javax.swing.JFileChooser;
  */
 public class Frame_Archivos extends javax.swing.JFrame {
     Usuario us1;
+    int velocidad = 10000;
+    public static ListaCircularDoble<Usuario> users = new ListaCircularDoble<>();
+    
 
     /**
      * Creates new form Frame_Archivos
@@ -44,6 +49,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,29 +82,33 @@ public class Frame_Archivos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(91, 91, 91)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
+                                        .addGap(30, 30, 30)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton3)
-                                            .addComponent(jButton4)))))
-                            .addComponent(jButton2))
+                                            .addComponent(jButton5)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(6, 6, 6)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jButton3)
+                                                    .addComponent(jButton4)))))
+                                    .addComponent(jButton2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(121, 121, 121)
+                                .addComponent(jLabel1)))
                         .addContainerGap(97, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1)))
                         .addGap(21, 21, 21))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +117,9 @@ public class Frame_Archivos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -122,25 +134,33 @@ public class Frame_Archivos extends javax.swing.JFrame {
                         .addComponent(jButton4)
                         .addGap(18, 18, 18)
                         .addComponent(jButton5)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     public void separarCaracteres(){
+        
         String doc = this.jTextArea1.getText();
         String[] linea;
         String cadenaSinSeparar = doc;
+        
+        
+        
         linea = cadenaSinSeparar.split("\n");
+        Usuario users2[] = new Usuario[linea.length];
+        this.jProgressBar1.setIndeterminate(true);
         for (int i = 0; i < linea.length; i++) {
             String[] cadena;
-            cadena = linea[i].split(",");
+            cadena = linea[i].split(",");            
             for (int j = 0; j < cadena.length/3; j++) {
-                us1 = new Usuario(Integer.parseInt(cadena[j]),cadena[j+1],Boolean.parseBoolean(cadena[j+2]));
-                System.out.println(us1.toString());
+                users2[i] = new Usuario(Integer.parseInt(cadena[j]),cadena[j+1],Boolean.parseBoolean(cadena[j+2]));                
             }
         }
+        Aumentar_Velocidad av = new Aumentar_Velocidad(users2,10000,this.jProgressBar1);
+        av.start();
+       
         
     }
     
@@ -203,6 +223,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
