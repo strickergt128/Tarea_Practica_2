@@ -27,5 +27,11 @@ public class Pausar extends Thread{
         pausar=false;
         notify();
     }
+
+    public Pausar(Thread hilo, boolean pausar, Usuario[] users) {
+        this.hilo = hilo;
+        this.pausar = pausar;
+        this.users = users;
+    }
     
 }

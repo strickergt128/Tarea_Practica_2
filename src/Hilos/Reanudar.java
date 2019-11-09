@@ -23,4 +23,10 @@ public class Reanudar  implements  Runnable {
     
     
     }
+    //Renaudar un hilo
+    synchronized void renaudarhilo(){
+        suspender=false;
+        notify();
+    }
+    
 }
