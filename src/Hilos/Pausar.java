@@ -15,6 +15,12 @@ import static java.lang.Thread.sleep;
  */
 public class Pausar extends Thread{
 
+    public static void interrupted(boolean b) {
+        b= true;
+        
+        b= false;  
+    }
+
     
     Thread hilo;
     boolean pausar;
@@ -25,13 +31,7 @@ public class Pausar extends Thread{
     hilo= new Thread(this,users);
    pausar=false;
     }
-    
-    public  void pausarhilo(){
-        pausar=true;
-        //lo siguiente garantiza que un hilo suspendido puede detenerse.
-        pausar=false;
-        notify();
-    }
+   
 
     public Pausar(Thread hilo, boolean pausar, Usuario[] users) {
         this.hilo = hilo;
@@ -55,5 +55,11 @@ public class Pausar extends Thread{
     public void start() {
        pausar = true;
        new Thread(this).start();
+    }
+    public  void pausar(){
+        pausar=true;
+        //lo siguiente garantiza que un hilo suspendido puede detenerse.
+        pausar=false;
+        notify();
     }
 }

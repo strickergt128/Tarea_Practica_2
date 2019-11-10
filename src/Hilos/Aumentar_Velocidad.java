@@ -24,6 +24,7 @@ public class Aumentar_Velocidad extends Thread{
     private Usuario users[];
     private int velocidad;
     
+    Thread hilo;
     boolean suspender; //Suspende un hilo cuando es true
     boolean pausar;    //Detiene un hilo cuando es true
     
@@ -43,7 +44,12 @@ public class Aumentar_Velocidad extends Thread{
         this.pausar = pausar;
         this.bar = bar;
     }
-
+    
+    Aumentar_Velocidad(String nombre){
+    hilo=new Thread(this,nombre);
+    suspender=false;
+    pausar=false;
+    }
     
     @Override
     public void run(){
@@ -67,13 +73,12 @@ public class Aumentar_Velocidad extends Thread{
         bar.setIndeterminate(false);
         Frame_Archivos.users.show();
         
-    }
-    
+    }  
    
     
     //Pausar el hilo
-    public void pausarhilo(){
-        pausar=true;
+    public  void pausarhilo(){
+        suspender=true;
         //lo siguiente garantiza que un hilo suspendido puede detenerse.
         suspender=false;
         notify();

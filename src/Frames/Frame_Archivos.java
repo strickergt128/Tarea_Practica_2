@@ -7,7 +7,6 @@ package Frames;
 
 import Hilos.Aumentar_Velocidad;
 import Hilos.Detener;
-import Hilos.Pausar;
 import Hilos.Reanudar;
 import Otras_Clases.Leer_Archivo;
 import Otras_Clases.ListaCircularDoble;
@@ -16,7 +15,7 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-
+import Hilos.Pausar;
 /**
  *
  * @author dilan
@@ -30,11 +29,9 @@ public class Frame_Archivos extends javax.swing.JFrame {
     Pausar objeto;
     Aumentar_Velocidad obj1;
     Reanudar ob2;
-    
-    
-    
-    
 
+   Object Hilos;
+    
     /**
      * Creates new form Frame_Archivos
      */
@@ -62,7 +59,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        Aumentar = new javax.swing.JButton();
         pausar = new javax.swing.JButton();
         detener = new javax.swing.JButton();
         reanudar = new javax.swing.JButton();
@@ -83,10 +80,10 @@ public class Frame_Archivos extends javax.swing.JFrame {
 
         jLabel1.setText("Archivo Cargado");
 
-        jButton2.setText("Aumentar Velocidad");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Aumentar.setText("Aumentar Velocidad");
+        Aumentar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                AumentarActionPerformed(evt);
             }
         });
 
@@ -128,7 +125,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(pausar)
                                                     .addComponent(detener)))))
-                                    .addComponent(jButton2)))
+                                    .addComponent(Aumentar)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(121, 121, 121)
                                 .addComponent(jLabel1)))
@@ -159,7 +156,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
-                        .addComponent(jButton2)
+                        .addComponent(Aumentar)
                         .addGap(18, 18, 18)
                         .addComponent(pausar)
                         .addGap(18, 18, 18)
@@ -188,11 +185,8 @@ public class Frame_Archivos extends javax.swing.JFrame {
                 users2[i] = new Usuario(Integer.parseInt(cadena[j]),cadena[j+1],Boolean.parseBoolean(cadena[j+2]));                
             }
         }
-        
         Aumentar_Velocidad av = new Aumentar_Velocidad(users2,10000,this.jProgressBar1);
-        av.start();
-       
-        
+        av.start();     
     }
 //    
     
@@ -213,23 +207,23 @@ public class Frame_Archivos extends javax.swing.JFrame {
         separarCaracteres();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void AumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AumentarActionPerformed
          try {
-            Pausar.sleep(2000);
+            Pausar.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Frame_Archivos.class.getName()).log(Level.SEVERE, null, ex);
         }
     
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_AumentarActionPerformed
 
     private void pausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pausarActionPerformed
-     
-     
-     
+   Aumentar_Velocidad.interrupted();
+   
+  
     }//GEN-LAST:event_pausarActionPerformed
 
     private void detenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detenerActionPerformed
-       
+        
         
        
     }//GEN-LAST:event_detenerActionPerformed
@@ -270,9 +264,9 @@ public class Frame_Archivos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Aumentar;
     private javax.swing.JButton detener;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
