@@ -40,7 +40,7 @@ public class Frame_Archivos extends javax.swing.JFrame {
         this.setTitle("Cargar Archivo");
         this.setLocationRelativeTo(null);
         
-        detener.setEnabled(false);
+        detener.setEnabled(true);
         pausar.setEnabled(true);
 //        reanudar.setEnabled(false);
     }
