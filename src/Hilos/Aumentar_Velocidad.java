@@ -23,6 +23,10 @@ import javax.swing.JProgressBar;
 public class Aumentar_Velocidad extends Thread{
     private Usuario users[];
     private int velocidad;
+    
+    boolean suspender; //Suspende un hilo cuando es true
+    boolean pausar;    //Detiene un hilo cuando es true
+    
     JProgressBar bar;
     
 
@@ -31,6 +35,15 @@ public class Aumentar_Velocidad extends Thread{
         this.velocidad = velocidad;
         this.bar = bar;
     }   
+
+    public Aumentar_Velocidad(Usuario[] users, int velocidad, boolean suspender, boolean pausar, JProgressBar bar) {
+        this.users = users;
+        this.velocidad = velocidad;
+        this.suspender = suspender;
+        this.pausar = pausar;
+        this.bar = bar;
+    }
+
     
     @Override
     public void run(){
@@ -38,12 +51,45 @@ public class Aumentar_Velocidad extends Thread{
             sleep(velocidad);
             for (int i = 0; i < users.length; i++) {
                 Frame_Archivos.users.add(users[i]);
+                
+            //---------------------------------------------    
+                synchronized (this){
+                while(suspender){
+                wait();
+                }
+                if(pausar) break;
+                }
+            //---------------------------------------------    
             }
         } catch (InterruptedException ex) {
 
         }
         bar.setIndeterminate(false);
         Frame_Archivos.users.show();
-            
+        
     }
-}
+    
+   
+    
+    //Pausar el hilo
+    public void pausarhilo(){
+        pausar=true;
+        //lo siguiente garantiza que un hilo suspendido puede detenerse.
+        suspender=false;
+        notify();
+    }
+    //Suspender un hilo   synchronized
+    public void suspenderhilo(){
+        suspender=true;
+    }
+    //Renaudar un hilo
+    public void renaudarhilo(){
+        suspender=false;
+        notify();
+    }
+    
+    
+    
+    }
+
+

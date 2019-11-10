@@ -6,22 +6,27 @@
 package Hilos;
 
 import Otras_Clases.Usuario;
+import java.awt.Color;
+import static java.lang.Thread.sleep;
 
 /**
  *
  * @author logas
  */
 public class Pausar extends Thread{
+
+    
     Thread hilo;
     boolean pausar;
+    
     private Usuario users[];
     
-    Pausar(String nombre){
-    hilo= new Thread(this,nombre);
+    Pausar(String users){
+    hilo= new Thread(this,users);
    pausar=false;
     }
     
-    synchronized void pausarhilo(){
+    public  void pausarhilo(){
         pausar=true;
         //lo siguiente garantiza que un hilo suspendido puede detenerse.
         pausar=false;
@@ -32,6 +37,23 @@ public class Pausar extends Thread{
         this.hilo = hilo;
         this.pausar = pausar;
         this.users = users;
+       
     }
     
+    public void run(){
+    while(pausar){
+
+            try {
+                sleep(1000);
+            } catch (Exception e) {
+            }
+            
+        }  
+    
+    }
+    
+    public void start() {
+       pausar = true;
+       new Thread(this).start();
+    }
 }

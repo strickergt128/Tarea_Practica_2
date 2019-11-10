@@ -9,12 +9,13 @@ package Hilos;
  *
  * @author logas
  */
-public class Reanudar  implements  Runnable {
+public class Reanudar  extends  Thread {
     
     Thread hilo;
     boolean suspender;
-    Reanudar(String nombre){
-    hilo= new Thread(this,nombre);
+    
+    Reanudar(String users){
+    hilo= new Thread(this,users);
     
     
     }

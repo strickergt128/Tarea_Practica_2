@@ -5,10 +5,24 @@
  */
 package Hilos;
 
-/**
- *
- * @author logas
- */
-public class Detener {
+import Frames.Frame_Archivos;
+import Otras_Clases.Usuario;
+import java.awt.TextArea;
+
+
+public class Detener implements Runnable {
     
+    Thread hilo;
+    boolean suspender;
+    boolean pausar;
+    
+ Detener(String usuario){
+     hilo = new Thread(this, usuario);
+     suspender= false;
+     pausar= false;
+ }
+ public void run(){
+ System.out.println(Frame_Archivos.users);
+ 
+ }
 }
