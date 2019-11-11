@@ -6,8 +6,6 @@
 package Frames;
 
 import Hilos.Aumentar_Velocidad;
-import Hilos.Detener;
-import Hilos.Reanudar;
 import Otras_Clases.Leer_Archivo;
 import Otras_Clases.ListaCircularDoble;
 import Otras_Clases.Usuario;
@@ -15,23 +13,19 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import Hilos.Pausar;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dilan
  */
 public class Frame_Archivos extends javax.swing.JFrame {
-    
     Usuario us1;
     int velocidad = 10000;
     public static ListaCircularDoble<Usuario> users = new ListaCircularDoble<>();
+    Aumentar_Velocidad av;
     
-    Pausar objeto;
-    Aumentar_Velocidad obj1;
-    Reanudar ob2;
 
-   Object Hilos;
-    
     /**
      * Creates new form Frame_Archivos
      */
@@ -39,10 +33,6 @@ public class Frame_Archivos extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Cargar Archivo");
         this.setLocationRelativeTo(null);
-        
-        detener.setEnabled(true);
-        pausar.setEnabled(true);
-//        reanudar.setEnabled(false);
     }
 
     /**
@@ -59,11 +49,12 @@ public class Frame_Archivos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        Aumentar = new javax.swing.JButton();
-        pausar = new javax.swing.JButton();
-        detener = new javax.swing.JButton();
-        reanudar = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,28 +71,40 @@ public class Frame_Archivos extends javax.swing.JFrame {
 
         jLabel1.setText("Archivo Cargado");
 
-        Aumentar.setText("Aumentar Velocidad");
-        Aumentar.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Aumentar Velocidad");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AumentarActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        pausar.setText("Pausar");
-        pausar.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Pausar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pausarActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
-        detener.setText("Detener");
-        detener.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setText("Detener");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                detenerActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
-        reanudar.setText("Reaunudar");
+        jButton5.setText("Reaunudar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Mostrar Lista de Usuarios");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,13 +122,13 @@ public class Frame_Archivos extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(30, 30, 30)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(reanudar)
+                                            .addComponent(jButton5)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(pausar)
-                                                    .addComponent(detener)))))
-                                    .addComponent(Aumentar)))
+                                                    .addComponent(jButton3)
+                                                    .addComponent(jButton4)))))
+                                    .addComponent(jButton2)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(121, 121, 121)
                                 .addComponent(jLabel1)))
@@ -138,6 +141,10 @@ public class Frame_Archivos extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField1)))
                         .addGap(21, 21, 21))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,14 +163,16 @@ public class Frame_Archivos extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
-                        .addComponent(Aumentar)
+                        .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(pausar)
+                        .addComponent(jButton3)
                         .addGap(18, 18, 18)
-                        .addComponent(detener)
+                        .addComponent(jButton4)
                         .addGap(18, 18, 18)
-                        .addComponent(reanudar)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                        .addComponent(jButton5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addContainerGap())
         );
 
         pack();
@@ -175,6 +184,8 @@ public class Frame_Archivos extends javax.swing.JFrame {
         String[] linea;
         String cadenaSinSeparar = doc;
         
+        
+        
         linea = cadenaSinSeparar.split("\n");
         Usuario users2[] = new Usuario[linea.length];
         this.jProgressBar1.setIndeterminate(true);
@@ -185,10 +196,10 @@ public class Frame_Archivos extends javax.swing.JFrame {
                 users2[i] = new Usuario(Integer.parseInt(cadena[j]),cadena[j+1],Boolean.parseBoolean(cadena[j+2]));                
             }
         }
-        Aumentar_Velocidad av = new Aumentar_Velocidad(users2,10000,this.jProgressBar1);
-        av.start();     
+        av =Aumentar_Velocidad.crearEIniciar("Carga de Archivos");
+        av.crear(users2, jProgressBar1);
+               
     }
-//    
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -207,26 +218,46 @@ public class Frame_Archivos extends javax.swing.JFrame {
         separarCaracteres();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void AumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AumentarActionPerformed
-         try {
-            Pausar.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Frame_Archivos.class.getName()).log(Level.SEVERE, null, ex);
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        try {
+            av.suspenderhilo();
+            System.out.println("Suspendiendo Hilo.");
+            Thread.sleep(1000);
+
+        } catch (Exception e) {
         }
+        this.jProgressBar1.setIndeterminate(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        
+        try {
+            av.renaudarhilo();
+            System.out.println("Renaudando Hilo.");
+            Thread.sleep(1000);
+
+        } catch (Exception e) {
+        }
+        this.jProgressBar1.setIndeterminate(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
     
-    }//GEN-LAST:event_AumentarActionPerformed
+        try {
+            av.pausarhilo();
+        } catch (Exception e) {
+        }
+        JOptionPane.showMessageDialog(null, "Se Cancelo la Carga de Usuarios");
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void pausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pausarActionPerformed
-   Aumentar_Velocidad.interrupted();
-   
-  
-    }//GEN-LAST:event_pausarActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        users.show();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void detenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detenerActionPerformed
-        
-        
-       
-    }//GEN-LAST:event_detenerActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,15 +295,16 @@ public class Frame_Archivos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Aumentar;
-    private javax.swing.JButton detener;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton pausar;
-    private javax.swing.JButton reanudar;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,6 +14,7 @@ import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
 /**
@@ -21,80 +22,60 @@ import javax.swing.JProgressBar;
  * @author dilan
  */
 public class Aumentar_Velocidad extends Thread{
+    JProgressBar bar;
     private Usuario users[];
-    private int velocidad;
-    
     Thread hilo;
     boolean suspender; //Suspende un hilo cuando es true
     boolean pausar;    //Detiene un hilo cuando es true
-    
-    JProgressBar bar;
-    
-
-    public Aumentar_Velocidad(Usuario users[], int velocidad, JProgressBar bar) {
+    Aumentar_Velocidad (String nombre){
+        hilo=new Thread(this,nombre);
+        suspender=false;
+        pausar=false;
+    }
+    public static Aumentar_Velocidad crearEIniciar(String nombre){
+        Aumentar_Velocidad miHilo=new Aumentar_Velocidad(nombre);
+        miHilo.hilo.start(); //Iniciar el hilo
+        return miHilo;
+    }
+    public void crear(Usuario users[],JProgressBar bar){
         this.users = users;
-        this.velocidad = velocidad;
-        this.bar = bar;
-    }   
-
-    public Aumentar_Velocidad(Usuario[] users, int velocidad, boolean suspender, boolean pausar, JProgressBar bar) {
-        this.users = users;
-        this.velocidad = velocidad;
-        this.suspender = suspender;
-        this.pausar = pausar;
         this.bar = bar;
     }
-    
-    Aumentar_Velocidad(String nombre){
-    hilo=new Thread(this,nombre);
-    suspender=false;
-    pausar=false;
-    }
-    
-    @Override
-    public void run(){
-        try {                
-            sleep(velocidad);
-            for (int i = 0; i < users.length; i++) {
+    public void run() {
+        System.out.println(hilo.getName()+ " iniciando.");
+        try {
+            sleep(10000);
+            for (int i = 0; i < users.length; i++) {                
                 Frame_Archivos.users.add(users[i]);
-                
-            //---------------------------------------------    
-                synchronized (this){
-                while(suspender){
-                wait();
+                synchronized (this) {
+                    while (suspender) {
+                        wait();
+                    }
+                    if (pausar) break;
                 }
-                if(pausar) break;
-                }
-            //---------------------------------------------    
             }
-        } catch (InterruptedException ex) {
-
+        }catch (InterruptedException exc){
+            System.out.println(hilo.getName()+ "interrumpido.");
         }
+        System.out.println(hilo.getName()+ " finalizado.");
         bar.setIndeterminate(false);
-        Frame_Archivos.users.show();
-        
-    }  
-   
-    
+    }
     //Pausar el hilo
-    public  void pausarhilo(){
-        suspender=true;
+    public synchronized void pausarhilo(){
+        pausar=true;
         //lo siguiente garantiza que un hilo suspendido puede detenerse.
         suspender=false;
         notify();
     }
-    //Suspender un hilo   synchronized
-    public void suspenderhilo(){
+    //Suspender un hilo
+    public synchronized void suspenderhilo(){
         suspender=true;
     }
     //Renaudar un hilo
-    public void renaudarhilo(){
+    public synchronized void renaudarhilo(){
         suspender=false;
         notify();
     }
-    
-    
-    
-    }
 
-
+    
+}
